@@ -6,11 +6,23 @@ public class Unit : MonoBehaviour
 {
 
 	public string unitName;
+
 	public int unitLevel;
 
 	public int damage;
 
+	public int spd;
+
+	public int acc;
+
+	public int dodge;
+
+	public int prot;
+
+	public int crit;
+
 	public int maxHP;
+
 	public int currentHP;
 
 	public bool TakeDamage(int dmg)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST,ENDTURN }
 
 public class BattleSystem : MonoBehaviour
 {
@@ -17,10 +17,16 @@ public class BattleSystem : MonoBehaviour
 	public GameObject enemyPrefab3;
 	public GameObject enemyPrefab4;
 
-	public Transform playerBattleStation;
-	public Transform enemyBattleStation;
+	public Transform playerBattleStation1;
+    public Transform playerBattleStation2;
+    public Transform playerBattleStation3;
+    public Transform playerBattleStation4;
+    public Transform enemyBattleStation1;
+    public Transform enemyBattleStation2;
+    public Transform enemyBattleStation3;
+    public Transform enemyBattleStation4;
 
-	Unit playerUnit;
+    Unit playerUnit;
 	Unit enemyUnit;
 
 	public Text dialogueText;
@@ -39,33 +45,32 @@ public class BattleSystem : MonoBehaviour
 
 	IEnumerator SetupBattle()
 	{
-		GameObject playerGO1 = Instantiate(playerPrefab1, playerBattleStation);
-        GameObject playerGO2 = Instantiate(playerPrefab2, playerBattleStation);
-        GameObject playerGO3 = Instantiate(playerPrefab3, playerBattleStation);
-        GameObject playerGO4 = Instantiate(playerPrefab4, playerBattleStation);
+		GameObject playerGO1 = Instantiate(playerPrefab1, playerBattleStation1);
+        GameObject playerGO2 = Instantiate(playerPrefab2, playerBattleStation2);
+        GameObject playerGO3 = Instantiate(playerPrefab3, playerBattleStation3);
+        GameObject playerGO4 = Instantiate(playerPrefab4, playerBattleStation4);
         playerUnit = playerGO1.GetComponent<Unit>();
         playerUnit = playerGO2.GetComponent<Unit>();
         playerUnit = playerGO3.GetComponent<Unit>();
         playerUnit = playerGO4.GetComponent<Unit>();
 
-        GameObject enemyGO1 = Instantiate(enemyPrefab1, enemyBattleStation);
-        GameObject enemyGO2 = Instantiate(enemyPrefab2, enemyBattleStation);
-        GameObject enemyGO3 = Instantiate(enemyPrefab3, enemyBattleStation);
-        GameObject enemyGO4 = Instantiate(enemyPrefab4, enemyBattleStation);
+        GameObject enemyGO1 = Instantiate(enemyPrefab1, enemyBattleStation1);
+        GameObject enemyGO2 = Instantiate(enemyPrefab2, enemyBattleStation2);
+        GameObject enemyGO3 = Instantiate(enemyPrefab3, enemyBattleStation3);
+        GameObject enemyGO4 = Instantiate(enemyPrefab4, enemyBattleStation4);
         enemyUnit = enemyGO1.GetComponent<Unit>();
         enemyUnit = enemyGO2.GetComponent<Unit>();
 		enemyUnit = enemyGO3.GetComponent<Unit>();
         enemyUnit = enemyGO4.GetComponent<Unit>();
 
-        dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
 		playerHUD.SetHUD(playerUnit);
 		enemyHUD.SetHUD(enemyUnit);
 
 		yield return new WaitForSeconds(2f);
 
-		state = BattleState.PLAYERTURN;
-		PlayerTurn();
+	     NewTurn();
+		//roll a d8 for every units turn
 	}
 
 	IEnumerator PlayerAttack()
@@ -73,25 +78,15 @@ public class BattleSystem : MonoBehaviour
 		bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
 		enemyHUD.SetHP(enemyUnit.currentHP);
-		dialogueText.text = "The attack is successful!";
 
 		yield return new WaitForSeconds(2f);
-
-		if (isDead)
-		{
-			state = BattleState.WON;
-			EndBattle();
-		}
-		else
-		{
-			state = BattleState.ENEMYTURN;
-			StartCoroutine(EnemyTurn());
-		}
+			state = BattleState.ENDTURN;
+			StartCoroutine(NewTurn());
 	}
 
 	IEnumerator EnemyTurn()
 	{
-		dialogueText.text = enemyUnit.unitName + " attacks!";
+
 
 		yield return new WaitForSeconds(1f);
 
@@ -101,34 +96,25 @@ public class BattleSystem : MonoBehaviour
 
 		yield return new WaitForSeconds(1f);
 
-		if (isDead)
-		{
-			state = BattleState.LOST;
-			EndBattle();
-		}
-		else
-		{
-			state = BattleState.PLAYERTURN;
-			PlayerTurn();
-		}
-
+			state = BattleState.ENDTURN;
+			NewTurn();
 	}
 
 	void EndBattle()
 	{
 		if (state == BattleState.WON)
 		{
-			dialogueText.text = "You won the battle!";
+	
 		}
 		else if (state == BattleState.LOST)
 		{
-			dialogueText.text = "You were defeated.";
+
 		}
 	}
 
 	void PlayerTurn()
 	{
-		dialogueText.text = "Choose an action:";
+
 	}
 
 	IEnumerator PlayerHeal()
@@ -136,12 +122,12 @@ public class BattleSystem : MonoBehaviour
 		playerUnit.Heal(5);
 
 		playerHUD.SetHP(playerUnit.currentHP);
-		dialogueText.text = "You feel renewed strength!";
+
 
 		yield return new WaitForSeconds(2f);
 
-		state = BattleState.ENEMYTURN;
-		StartCoroutine(EnemyTurn());
+		state = BattleState.ENDTURN;
+		StartCoroutine(NewTurn());
 	}
 
 	public void OnAttackButton()
