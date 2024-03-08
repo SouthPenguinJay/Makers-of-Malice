@@ -25,6 +25,7 @@ public class BattleSystem : MonoBehaviour
     public Transform enemyBattleStation2;
     public Transform enemyBattleStation3;
     public Transform enemyBattleStation4;
+	public int[] Turnorder;
 
     Unit playerUnit;
 	Unit enemyUnit;
@@ -41,6 +42,7 @@ public class BattleSystem : MonoBehaviour
 	{
 		state = BattleState.START;
 		StartCoroutine(SetupBattle());
+		//place units on platforms acording to rank
 	}
 
 	IEnumerator SetupBattle()
@@ -71,6 +73,7 @@ public class BattleSystem : MonoBehaviour
 
 	     NewTurn();
 		//roll a d8 for every units turn
+		//deal status effect damage to units at the start of THEIR turn
 	}
 
 	IEnumerator PlayerAttack()
@@ -145,5 +148,10 @@ public class BattleSystem : MonoBehaviour
 
 		StartCoroutine(PlayerHeal());
 	}
+	IEnumerator NewTurn()
+    {
+		
 
+
+    }
 }
