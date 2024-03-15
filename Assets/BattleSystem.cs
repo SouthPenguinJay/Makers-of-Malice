@@ -37,6 +37,11 @@ public class BattleSystem : MonoBehaviour
 
 	public BattleState state;
 
+	Random r = new Random();
+	int rInt = ref.Next(0, 100);
+	//random number gen
+
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -155,3 +160,15 @@ public class BattleSystem : MonoBehaviour
 
     }
 }
+dmg * crit * prot
+
+	if (rand()%100+ 1)== crit + crit_mod;
+
+{
+    critical = true;
+}
+chance = rand() % 100 + 1
+
+	2== sucess
+	1 == fail
+	87%
