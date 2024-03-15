@@ -37,8 +37,6 @@ public class BattleSystem : MonoBehaviour
 
 	public BattleState state;
 
-	Random r = new Random();
-	int rInt = ref.Next(0, 100);
 	//random number gen
 
 
@@ -155,20 +153,9 @@ public class BattleSystem : MonoBehaviour
 	}
 	IEnumerator NewTurn()
     {
-		
 
 
+		yield return new WaitForSeconds(2f);
     }
 }
-dmg * crit * prot
-
-	if (rand()%100+ 1)== crit + crit_mod;
-
-{
-    critical = true;
-}
-chance = rand() % 100 + 1
-
-	2== sucess
-	1 == fail
-	87%
+//dmg * crit * prot if (rand()%100+ 1)== crit + crit_mod;{   critical = true;} chance = rand() % 100 + 1	2== sucess 1 == fail	87%
