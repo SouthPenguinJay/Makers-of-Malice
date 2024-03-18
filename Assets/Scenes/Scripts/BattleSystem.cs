@@ -8,6 +8,7 @@ public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST,ENDTURN }
 public class BattleSystem : MonoBehaviour
 {
 
+
 	public GameObject playerPrefab1;
 	public GameObject playerPrefab2;
 	public GameObject playerPrefab3;
@@ -37,11 +38,30 @@ public class BattleSystem : MonoBehaviour
 
 	public BattleState state;
 
-	//random number gen
+    private int EnemiesLeft = 0;
 
+    //random number gen
+	
+	public void enemyHasDied()
+	{
+		EnemiesLeft--;
+		print(EnemiesLeft);
 
-	// Start is called before the first frame update
-	void Start()
+		if (EnemiesLeft == 0)
+		{
+			// Enable cleared ui menu here
+			// destroy this if needs be
+		}
+	}
+	
+	public void enemyHasAppeared()
+	{
+		EnemiesLeft++;
+		print(EnemiesLeft);
+	}
+
+    // Start is called before the first frame update
+    void Start()
 	{
 		state = BattleState.START;
 		StartCoroutine(SetupBattle());

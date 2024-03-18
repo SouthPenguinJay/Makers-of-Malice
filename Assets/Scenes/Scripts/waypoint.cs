@@ -23,5 +23,5 @@ public class waypoint : MonoBehaviour
     {
         //for (int i = 0; i < waypointPrefab.Length; i++) { }
        movetarget.transform.position = Vector2.MoveTowards(movetarget.transform.position, waypointPrefab[0].transform.position, speed*Time.deltaTime);
-    }
+      }
 }
