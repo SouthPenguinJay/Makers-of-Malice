@@ -5,6 +5,7 @@ using UnityEngine;
 public class seedling_unit : MonoBehaviour
 {
     public int level;
+    public GameObject Healthbar;
     // Start is called before the first frame update
     void Start()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -25,8 +26,11 @@ public class Unit : MonoBehaviour
 
 	public int currentHP;
 
+	public GameObject Healthbar;
+
 	public bool TakeDamage(int dmg)
 	{
+		Healthbar.GetComponent<HealthManager>().TakeDamage(dmg);
 		currentHP -= dmg;
 
 		if (currentHP <= 0)
@@ -40,6 +44,7 @@ public class Unit : MonoBehaviour
 		currentHP += amount;
 		if (currentHP > maxHP)
 			currentHP = maxHP;
-	}
+        Healthbar.GetComponent<HealthManager>().Heal(amount);
+    }
 
 }
